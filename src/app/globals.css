@@ -573,3 +573,22 @@
     animation: none !important;
   }
 }
+
+/* Colours of the Flutter (Material) prototype, used by the Demo replica only. */
+.mat {
+  --m-blue: #1976d2;
+  --m-blue-text: #0d47a1;
+  --m-orange: #fb8c00;
+  --m-grey-100: #f5f5f5;
+  --m-grey-50: #fafafa;
+  --m-blue-grey-50: #eceff1;
+  --m-green-50: #e8f5e9;
+  --m-green-100: #c8e6c9;
+  --m-green: #4caf50;
+  --m-orange-100: #ffe0b2;
+  --m-orange-700: #f57c00;
+  --m-red-100: #ffcdd2;
+  --m-red-700: #d32f2f;
+  --m-yellow-100: #fff9c4;
+  --m-yellow-800: #f9a825;
+}

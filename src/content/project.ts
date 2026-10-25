@@ -60,7 +60,7 @@ export const resources: ProjectLink[] = [
     description: "GitHub repository with the implementation and evaluation code.",
     icon: "git-branch",
     href: null,
-    placeholder: "https://github.com/peizhe33/uipharma.git",
+    placeholder: "[ADD GITHUB URL]",
   },
   {
     id: "report",
@@ -289,7 +289,7 @@ export const techStack: TechGroup[] = [
     id: "deployment",
     title: "Local deployment and hardware",
     description:
-      "Private local inference and multi-device access over the ward network. [ADD WHAT THE RASPBERRY PI RUNS: BEDSIDE KIOSK OR MODEL HOST]",
+      "SmartPharma runs its quantized AI model locally on a Raspberry Pi 5, providing private inference to authorised devices across the ward network.",
     icon: "rocket",
     items: [
       { name: "Ollama", purpose: "Local model serving", icon: "rocket", primary: true },
@@ -352,7 +352,13 @@ export const prototype = {
     caption: "Inside",
     detail: "Main parts of the prototype",
   },
-  /** Pins are placed on the Inside photo. Order = number shown. */
+  /**
+   * Pins are placed on the Inside photo. Order = number shown.
+   * To give a component its own photo in the details panel, save it in
+   * public/images/prototype/ and add to that component:
+   *   image: { src: "/images/prototype/display.webp", alt: "What the photo shows", width: 800, height: 600 },
+   * Without `image`, the panel zooms in on the component's pin in the Inside photo.
+   */
   components: [
     {
       id: "pi",

@@ -11,6 +11,69 @@ interface PrototypeComponentsProps {
   components: PrototypeComponent[];
 }
 
+/** How far the fallback thumbnail zooms into the inside photo. */
+const ZOOM = 2.4;
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+
+/**
+ * Thumbnail in the details panel.
+ * - If the component has its own `image` (see project.ts), that photo is shown.
+ * - Otherwise the inside photo is zoomed in on the component's pin.
+ */
+function ComponentThumb({
+  component,
+  index,
+  fallback,
+}: {
+  component: PrototypeComponent;
+  index: number;
+  fallback: PrototypeImage;
+}) {
+  const frame = "relative aspect-[4/3] overflow-hidden rounded-ctrl border border-brand-100 bg-white";
+
+  if (component.image) {
+    return (
+      <div className={frame}>
+        <Image
+          src={component.image.src}
+          alt={component.image.alt}
+          fill
+          sizes="(min-width: 640px) 200px, 100vw"
+          className="object-cover"
+        />
+      </div>
+    );
+  }
+
+  // Zoom so the pin sits in the middle of the frame, without showing empty space.
+  const imageHeightPct = ZOOM * (fallback.height / fallback.width) * (4 / 3) * 100; // % of frame height
+  const left = clamp(50 - ZOOM * component.pin.x, 100 - ZOOM * 100, 0);
+  const top = clamp(50 - (imageHeightPct * component.pin.y) / 100, 100 - imageHeightPct, 0);
+  const pinLeft = left + (ZOOM * component.pin.x);
+  const pinTop = top + (imageHeightPct * component.pin.y) / 100;
+
+  return (
+    <div className={frame}>
+      <Image
+        src={fallback.src}
+        alt={`Close-up of the ${component.name} in the prototype interior`}
+        width={fallback.width}
+        height={fallback.height}
+        sizes="480px"
+        className="absolute max-w-none"
+        style={{ width: `${ZOOM * 100}%`, left: `${left}%`, top: `${top}%` }}
+      />
+      <span
+        aria-hidden="true"
+        className="absolute flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-brand-700 text-label font-semibold text-white shadow-md"
+        style={{ left: `${pinLeft}%`, top: `${pinTop}%` }}
+      >
+        {index + 1}
+      </span>
+    </div>
+  );
+}
+
 export function PrototypeComponents({ image, components }: PrototypeComponentsProps) {
   const [selectedId, setSelectedId] = useState(components[0]?.id);
   const selectedIndex = components.findIndex((component) => component.id === selectedId);
@@ -59,17 +122,8 @@ export function PrototypeComponents({ image, components }: PrototypeComponentsPr
         aria-label={`Details for component ${selectedIndex + 1}: ${selected.name}`}
         className="mt-4 rounded-card border border-brand-200 bg-brand-50 p-4 sm:p-5"
       >
-        <div className="grid gap-4 sm:grid-cols-[minmax(0,180px)_1fr] sm:items-start">
-          <div className="overflow-hidden rounded-ctrl border border-brand-100 bg-white">
-            <Image
-              src={image.src}
-              alt={`Location of ${selected.name} in the prototype interior`}
-              width={image.width}
-              height={image.height}
-              sizes="180px"
-              className="h-auto w-full"
-            />
-          </div>
+        <div className="grid gap-4 sm:grid-cols-[minmax(0,200px)_1fr] sm:items-start">
+          <ComponentThumb key={selected.id} component={selected} index={selectedIndex} fallback={image} />
           <div>
             <p className="label-caps text-brand-800">Selected component {selectedIndex + 1}</p>
             <h3 className="mt-1 text-hmd font-semibold text-gray-950">{selected.name}</h3>

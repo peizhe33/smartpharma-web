@@ -124,6 +124,8 @@ export interface PrototypeComponent {
   detail: string;
   /** Pin position on the Inside photo, as a percentage of its width and height. */
   pin: { x: number; y: number };
+  /** Optional own photo for the details panel. If omitted, the Inside photo is zoomed in on the pin. */
+  image?: PrototypeImage;
 }
 
 export interface PrototypeImage {

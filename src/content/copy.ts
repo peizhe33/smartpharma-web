@@ -138,8 +138,8 @@ export const sections = {
   demo: {
     eyebrow: "Product demo",
     title: "See a review in action.",
-    intro: "One synthetic order. Switch tabs, then make the reviewer's call.",
-    syntheticBanner: "Synthetic data. No real patient or reference. Not clinical guidance.",
+    intro: "The prescription alert screen from the prototype. Edit the AI suggestion, choose a reason, then save.",
+    syntheticBanner: "Demonstration only. No AI model runs here and nothing is sent. Not clinical guidance.",
   },
   architecture: {
     eyebrow: "Architecture",

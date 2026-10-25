@@ -1,241 +1,194 @@
 /**
- * SYNTHETIC DEMONSTRATION DATA
- * ----------------------------
- * Everything in this file is invented for interface demonstration. No real
- * patient, hospital, publication or guideline is represented. The "reference"
- * titles and excerpt summaries are placeholder demonstration text, not
- * citations of real documents, and must never be presented as clinical
- * guidance.
+ * DEMO DATA: an interactive replica of the SmartPharma "Prescription Alert"
+ * screen (Flutter app). Layout, labels, dropdown options and colours follow the
+ * prototype; the AI text follows the format the AI backend produces.
+ *
+ * - Nothing here comes from a model at run time. It is pre-written.
+ * - EDIT BEFORE PUBLISHING: confirm the patient below is a test record, not a
+ *   real person. Change `patientName` / `ward` if needed.
  */
 
-export type ProvenanceKind = "evidence" | "model" | "rule" | "reviewer" | "system" | "fact";
-
-export const provenance: Record<
-  ProvenanceKind,
-  { label: string; description: string }
-> = {
-  fact: {
-    label: "Order record",
-    description: "Facts as entered in the synthetic order record.",
-  },
-  evidence: {
-    label: "Retrieved evidence",
-    description: "Source passages returned by retrieval. Not interpreted by the model.",
-  },
-  model: {
-    label: "Model-generated analysis",
-    description: "Drafted by the model from the order and evidence. Not verified.",
-  },
-  rule: {
-    label: "Rule-based check",
-    description: "Deterministic checks run independently of the model.",
-  },
-  reviewer: {
-    label: "Reviewer decision",
-    description: "Recorded action by a qualified human reviewer.",
-  },
-  system: {
-    label: "System event",
-    description: "Automatic pipeline step.",
-  },
-};
-
 export const demoMeta = {
-  orderId: "DEMO-ORD-0001",
-  patientLabel: "Synthetic patient DEMO-0001",
-  setting: "Synthetic inpatient ward",
-  pendingStatus: "Requires clinical review",
-  priority: "High",
-  flagTitle: "Possible interaction: anticoagulant and NSAID",
+  appTitle: "PRESCRIPTION ALERT",
+  patientName: "See Seng Hong",
+  ward: "A101",
+  banner: "Prescription alerts detected. Please review.",
+  savedMessage: 'Saved! Added to Pharmacist "To be verified" list.',
 };
 
-export const orderFacts: { label: string; value: string }[] = [
-  { label: "Patient", value: "Synthetic patient DEMO-0001" },
-  { label: "Age group", value: "Adult (synthetic)" },
-  { label: "Active order", value: "Warfarin 5 mg, oral, once daily" },
-  { label: "New order under review", value: "Ibuprofen 400 mg, oral, every 8 hours as needed" },
-  { label: "Care setting", value: "Synthetic inpatient ward" },
-  { label: "Ordered by", value: "Synthetic prescriber" },
-];
-
-export const modelAnalysis = {
-  summary:
-    "The new NSAID order overlaps with an active anticoagulant order. Retrieved passages 01 and 02 describe an increased bleeding risk for this combination, and passage 03 describes routing such flags to a pharmacist.",
-  reasoning: [
-    "Active anticoagulant order detected in the record.",
-    "New NSAID order matches the interaction pattern described in passages 01 and 02.",
-    "Whether the combination is appropriate depends on indication and monitoring, which the model cannot assess.",
-  ],
-  caution:
-    "Model-generated and unverified. Professional review is required before any action is taken.",
-};
-
-export type Relevance = "high" | "medium" | "low";
-
-export const evidence: {
-  id: string;
-  ref: string;
-  title: string;
-  sourceType: string;
-  excerptSummary: string;
-  relevance: Relevance;
-  usedInAnalysis: boolean;
-}[] = [
-  {
-    id: "ev-01",
-    ref: "01",
-    title: "Synthetic reference 01: Anticoagulant interaction summary",
-    sourceType: "Demonstration interaction monograph (synthetic)",
-    excerptSummary:
-      "Demonstration text stating that combining an NSAID with an anticoagulant may increase bleeding risk and that the combination should be reviewed.",
-    relevance: "high",
-    usedInAnalysis: true,
-  },
-  {
-    id: "ev-02",
-    ref: "02",
-    title: "Synthetic reference 02: NSAID use in inpatients",
-    sourceType: "Demonstration usage guidance (synthetic)",
-    excerptSummary:
-      "Demonstration text suggesting NSAID orders for patients on anticoagulants be checked against the indication and monitoring plan.",
-    relevance: "high",
-    usedInAnalysis: true,
-  },
-  {
-    id: "ev-03",
-    ref: "03",
-    title: "Synthetic reference 03: Example local review policy",
-    sourceType: "Demonstration policy text (synthetic)",
-    excerptSummary:
-      "Demonstration text describing that flags of this type are routed to a pharmacist before administration.",
-    relevance: "medium",
-    usedInAnalysis: true,
-  },
-  {
-    id: "ev-04",
-    ref: "04",
-    title: "Synthetic reference 04: General analgesic overview",
-    sourceType: "Demonstration background text (synthetic)",
-    excerptSummary:
-      "General background text. Retrieved but ranked as less relevant and not used in the analysis.",
-    relevance: "low",
-    usedInAnalysis: false,
-  },
-];
-
-export type CheckResult = "flag" | "pass" | "unavailable";
-
-export const safetyChecks: {
-  id: string;
+export interface RxLine {
   name: string;
-  result: CheckResult;
-  resultLabel: string;
-  note: string;
-}[] = [
+  dose: string;
+  unit: string;
+  frequency: string;
+  route: string;
+  prn: boolean;
+}
+
+/** The doctor's original order. */
+export const doctorPrescription: RxLine[] = [
+  { name: "Ceftriaxone", dose: "1", unit: "g", frequency: "Once a day", route: "IV", prn: false },
+  { name: "Azithromycin", dose: "500", unit: "mg", frequency: "Once a day", route: "PO", prn: false },
+  { name: "Amoxicillin", dose: "1000", unit: "mg", frequency: "Three times a day", route: "PO", prn: false },
+  { name: "Paracetamol", dose: "1000", unit: "mg", frequency: "Every 6 hours", route: "PO", prn: true },
+];
+
+export interface AiRow extends RxLine {
+  id: string;
+  /** Shown in italics above the row. */
+  rationale: string;
+}
+
+/**
+ * The AI suggestion. Ceftriaxone is not listed: the system leaves out a drug
+ * with no guideline indication, and the doctor's original stays selectable.
+ */
+export const aiSuggestion: AiRow[] = [
   {
-    id: "interaction",
-    name: "Interaction rule: anticoagulant with NSAID",
-    result: "flag",
-    resultLabel: "Flag raised: review required",
-    note: "Matched a rule in the synthetic demonstration rule set.",
+    id: "azithromycin",
+    name: "azithromycin",
+    dose: "500",
+    unit: "mg",
+    frequency: "Once a day",
+    route: "PO",
+    prn: false,
+    rationale: "Continue as prescribed - no issues detected.",
   },
   {
-    id: "duplicate",
-    name: "Duplicate therapy check",
-    result: "pass",
-    resultLabel: "No flag",
-    note: "No duplicate therapeutic class found in the synthetic record.",
+    id: "amoxicillin",
+    name: "amoxicillin",
+    dose: "1000",
+    unit: "mg",
+    frequency: "Every 8 hours",
+    route: "PO",
+    prn: false,
+    rationale: "Continue as prescribed - no issues detected.",
+  },
+  {
+    id: "paracetamol",
+    name: "paracetamol",
+    dose: "1000",
+    unit: "mg",
+    frequency: "Every 6 hours",
+    route: "PO",
+    prn: true,
+    rationale: "Continue as prescribed - no issues detected.",
+  },
+];
+
+/** Plain text, shown exactly as the app shows it. */
+export const aiExplanation = `Assessment: Prescription requires review - dosing or stewardship concerns detected.
+Diagnosis: Community acquired pneumonia, suspected bacterial
+
+Clinical Flags:
+  - CLASS OVERLAP: WARNING - Therapeutic redundancy: ceftriaxone, amoxicillin are both beta-lactam antibiotics. Prescribing multiple drugs from the same class for the same indication is usually redundant. Verify if both are intended (e.g., step-down therapy, different infection sites).
+  - DOSE ALERT: ceftriaxone dose does not match guideline target (2 g).
+
+--- ceftriaxone ---
+Assessment: Unsafe
+Issues:
+- NOT INDICATED - ceftriaxone is not listed in the UMMC structured guideline for 'Community acquired pneumonia, suspected bacterial'.
+Recommendation: Discontinuation is required due to the documented lack of indication [1].
+
+--- azithromycin ---
+Assessment: Safe
+Issues: None
+Recommendation: Continue
+
+--- amoxicillin ---
+Assessment: Safe
+Issues: - THERAPEUTIC REDUNDANCY - ceftriaxone, amoxicillin are both beta-lactam antibiotics. Prescribing multiple drugs from the same class for the same indication is usually redundant.
+Recommendation: Consider switching to a non-beta-lactam antibiotic if both agents are not intended [1].
+
+--- paracetamol (supportive care) ---
+Assessment: Safe
+Issues: None
+Recommendation: Continue
+
+Verification: AI-generated analysis based on UMMC Antimicrobial Guidelines 3rd Edition, and clinical knowledge. Clinical judgment required before acting on these recommendations.
+
+References:
+[1] 3.8 Respiratory Tract Infections_3rd Ed`;
+
+export type AlertSeverity = "high" | "medium" | "low";
+
+export interface DemoAlert {
+  id: string;
+  severity: AlertSeverity;
+  /** "dosing" shows the pill icon, "other" the info icon (as in the app). */
+  category: "dosing" | "other";
+  title: string;
+  summary: string;
+  details: string;
+}
+
+/** The alert cards, as the app derives them from the AI text above. */
+export const alerts: DemoAlert[] = [
+  {
+    id: "class-overlap",
+    severity: "medium",
+    category: "other",
+    title: "Class Overlap",
+    summary: "Therapeutic redundancy requires review",
+    details:
+      "CLASS OVERLAP: WARNING - Therapeutic redundancy: ceftriaxone, amoxicillin are both beta-lactam antibiotics. Prescribing multiple drugs from the same class for the same indication is usually redundant. Verify if both are intended (e.g., step-down therapy, different infection sites).",
   },
   {
     id: "dose",
-    name: "Dose range check",
-    result: "pass",
-    resultLabel: "No flag",
-    note: "Within the synthetic demonstration range. A pass does not replace review.",
+    severity: "medium",
+    category: "dosing",
+    title: "Incorrect Dosage",
+    summary: "Dose or frequency does not match guideline target",
+    details: "DOSE ALERT: ceftriaxone dose does not match guideline target (2 g).",
   },
   {
-    id: "allergy",
-    name: "Allergy record check",
-    result: "unavailable",
-    resultLabel: "Not checked: data unavailable",
-    note: "No allergy data in the synthetic record. The reviewer must verify.",
-  },
-];
-
-export type AuditSource = "system" | "evidence" | "model" | "rule" | "reviewer";
-
-export const auditSeed: {
-  id: string;
-  source: AuditSource;
-  title: string;
-  detail: string;
-}[] = [
-  {
-    id: "a1",
-    source: "system",
-    title: "Order received",
-    detail: "DEMO-ORD-0001 entered into the synthetic review queue.",
-  },
-  {
-    id: "a2",
-    source: "system",
-    title: "Order validated and normalised",
-    detail: "Medication names, route and frequency parsed into a structured form.",
-  },
-  {
-    id: "a3",
-    source: "evidence",
-    title: "Evidence retrieved",
-    detail: "4 synthetic passages retrieved and ranked by relevance.",
-  },
-  {
-    id: "a4",
-    source: "model",
-    title: "Analysis generated",
-    detail: "Draft analysis produced and marked as model output.",
-  },
-  {
-    id: "a5",
-    source: "rule",
-    title: "Rule-based checks executed",
-    detail: "4 checks run: 1 flag, 2 no flag, 1 not checked.",
-  },
-  {
-    id: "a6",
-    source: "system",
-    title: "Status set to “Requires clinical review”",
-    detail: "Awaiting a decision from a qualified reviewer.",
+    id: "guideline-warning",
+    severity: "medium",
+    category: "other",
+    title: "Guideline Warning",
+    summary: "Drug choice is not first-line or not routinely indicated",
+    details:
+      "NOT INDICATED - ceftriaxone is not listed in the UMMC structured guideline for 'Community acquired pneumonia, suspected bacterial'.",
   },
 ];
 
-export type DecisionId = "confirm" | "reject" | "escalate";
+/** Dropdown options, as in the app. */
+export const doseUnits = ["g", "mg", "mcg", "mL", "tsp", "tbsp", "IU", "units", "mg/kg", "mcg/kg"];
+export const frequencyOptions = [
+  "Once a day",
+  "Twice a day",
+  "Three times a day",
+  "Every 4 hours",
+  "Every 6 hours",
+  "Every 8 hours",
+  "Every 12 hours",
+  "Every 24 hours",
+  "Every 48 hours",
+  "Every 72 hours",
+];
+export const routeOptions = ["PO", "IV", "IM", "SC", "Topical", "Inhaled", "PR", "SL"];
 
-export const decisions: {
-  id: DecisionId;
-  label: string;
-  help: string;
-  finalStatus: string;
-  auditTitle: string;
-}[] = [
+export const reasonOptions = [
+  "Allergy not clinically relevant",
+  "Alert is recorded",
+  "Others (Please specify)",
+];
+export const OTHER_REASON = "Others (Please specify)";
+
+export const decisionOptions = ["Use AI suggestion", "Use Doctor prescription", "Edit AI suggestion"];
+
+/** Short notes under the replica. */
+export const demoNotes = [
   {
-    id: "confirm",
-    label: "Confirm flag",
-    help: "Reviewer agrees an issue exists.",
-    finalStatus: "Reviewed: flag confirmed",
-    auditTitle: "Reviewer confirmed the flag",
+    title: "AI suggestion",
+    text: "Ceftriaxone is left out because the guideline lists no indication for it. The doctor's original stays one choice away.",
   },
   {
-    id: "reject",
-    label: "Reject flag",
-    help: "Reviewer judges the flag does not apply.",
-    finalStatus: "Reviewed: flag rejected",
-    auditTitle: "Reviewer rejected the flag",
+    title: "Colour-coded alerts",
+    text: "Red, orange or yellow by severity. This case has orange warnings only.",
   },
   {
-    id: "escalate",
-    label: "Escalate",
-    help: "Reviewer passes it to a senior reviewer.",
-    finalStatus: "Escalated for further review",
-    auditTitle: "Reviewer escalated the case",
+    title: "A person decides",
+    text: "Save & Confirm stays disabled until a reason is chosen, then the order goes to the pharmacist.",
   },
 ];
