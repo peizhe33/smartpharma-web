@@ -17,7 +17,7 @@
  * ============================================================================
  */
 
-import type { ImplementationStatus, Metric, PrototypeComponent, PrototypeImage, ProjectLink, TechGroup } from "./types";
+import type { Metric, PrototypeComponent, PrototypeImage, ProjectLink, TechGroup } from "./types";
 
 /* -------------------------------------------------------------------------- */
 /* Identity                                                                   */
@@ -233,52 +233,6 @@ export const contribution = {
     "[ADD MY CONTRIBUTION: RESPONSIBILITY 3]",
   ],
   collaborators: "[ADD TEAM MEMBERS OR STATE INDIVIDUAL PROJECT]",
-};
-
-/* -------------------------------------------------------------------------- */
-/* Architecture status                                                        */
-/* -------------------------------------------------------------------------- */
-
-/**
- * Status of each architecture component. Set each to one of:
- *   "implemented"  built and working in the project
- *   "simulated"    represented with mock/synthetic behaviour
- *   "evaluated"    built AND formally evaluated (results in the report)
- *   "proposed"     designed or planned but not built
- *   "unconfirmed"  default; renders as a visible "[ADD STATUS]" placeholder
- *
- * IMPORTANT: confirm RAG and QLoRA are genuinely used before setting them to
- * anything other than "proposed". Optionally add an implementation note per
- * component in `architectureDetail`.
- *
- * Note: the interactive demo on this website is itself a simulation with
- * synthetic data (the page says so). Status here describes the underlying
- * research system, not this website's demo.
- */
-export const architectureStatus: Record<string, ImplementationStatus> = {
-  "user-interface": "unconfirmed",
-  "input-processing": "unconfirmed",
-  "retrieval-pipeline": "unconfirmed",
-  "knowledge-sources": "unconfirmed",
-  "rag-pipeline": "unconfirmed",
-  "qlora-model": "unconfirmed",
-  "safety-verification": "unconfirmed",
-  "evidence-generation": "unconfirmed",
-  "human-reviewer": "unconfirmed",
-  "audit-trail": "unconfirmed",
-};
-
-export const architectureDetail: Record<string, string> = {
-  "user-interface": "[ADD IMPLEMENTATION DETAIL]",
-  "input-processing": "[ADD IMPLEMENTATION DETAIL]",
-  "retrieval-pipeline": "[ADD IMPLEMENTATION DETAIL]",
-  "knowledge-sources": "[ADD KNOWLEDGE SOURCES USED]",
-  "rag-pipeline": "[ADD IMPLEMENTATION DETAIL]",
-  "qlora-model": "[ADD BASE MODEL AND QLORA CONFIGURATION]",
-  "safety-verification": "[ADD IMPLEMENTATION DETAIL]",
-  "evidence-generation": "[ADD IMPLEMENTATION DETAIL]",
-  "human-reviewer": "[ADD IMPLEMENTATION DETAIL]",
-  "audit-trail": "[ADD IMPLEMENTATION DETAIL]",
 };
 
 /* -------------------------------------------------------------------------- */

@@ -143,13 +143,15 @@ export const sections = {
   },
   architecture: {
     eyebrow: "Architecture",
-    title: "From order to audited decision.",
-    intro: "",
+    title: "How SmartPharma works from prescription to bedside",
+    intro:
+      "An implemented end-to-end medication verification workflow combining AI-assisted review, pharmacist approval, QR dispensing, and bedside verification.",
   },
   validation: {
     eyebrow: "Validation",
-    title: "Evidence first.",
-    intro: "Each figure names its test and sample. Placeholders are not claims.",
+    title: "Validated through staged testing",
+    intro:
+      "SmartPharma was evaluated through simulated guideline-based cases, pharmacist-reviewed anonymised patient cases and a target-user survey.",
   },
   limitations: {
     eyebrow: "Limitations",

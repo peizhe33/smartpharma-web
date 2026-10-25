@@ -1,114 +1,69 @@
-import { ChevronDown } from "lucide-react";
 import { Icon } from "@/components/icons";
-import { Badge, type Tone } from "@/components/ui/Badge";
-import { Ph } from "@/components/ui/Ph";
+import { Badge } from "@/components/ui/Badge";
 import { Section } from "@/components/ui/Section";
-import { architectureLayers, architectureNodes, sections, statusMeta } from "@/content";
-import type { IconKey, ImplementationStatus } from "@/content";
+import { architectureAudit, architectureStages, sections } from "@/content";
 import { cn } from "@/lib/cn";
-
-const statusStyle: Record<ImplementationStatus, { tone: Tone; icon: IconKey }> = {
-  implemented: { tone: "green", icon: "shield-check" },
-  simulated: { tone: "purple", icon: "layers" },
-  evaluated: { tone: "primary", icon: "bar-chart" },
-  proposed: { tone: "gray", icon: "clock" },
-  unconfirmed: { tone: "amber", icon: "info" },
-};
-
-const statusOrder: ImplementationStatus[] = ["implemented", "simulated", "evaluated", "proposed", "unconfirmed"];
-
-function StatusBadge({ status }: { status: ImplementationStatus }) {
-  const s = statusStyle[status];
-  return (
-    <Badge tone={s.tone} icon={<Icon name={s.icon} size={14} />}>
-      {status === "unconfirmed" ? <Ph text={statusMeta[status].label} /> : statusMeta[status].label}
-    </Badge>
-  );
-}
 
 export function Architecture() {
   return (
-    <Section id="architecture" eyebrow={sections.architecture.eyebrow} title={sections.architecture.title} tone="gray">
-      <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-label="System layers, in order of data flow">
-        {architectureLayers.map((layer) => {
-          const nodes = architectureNodes.filter((n) => n.layerId === layer.id);
-          const isReview = layer.id === "review";
-          return (
-            <li
-              key={layer.id}
-              className={cn(
-                "t-fast rounded-feature border bg-white p-5 hover:shadow-md",
-                isReview ? "border-2 border-brand-600 sm:col-span-2 lg:col-span-1" : "border-gray-200",
-              )}
-            >
-              <div className="flex items-center gap-3">
-                <span
-                  className={cn(
-                    "flex size-8 shrink-0 items-center justify-center rounded-full text-body-md font-semibold",
-                    isReview ? "bg-brand-700 text-white" : "bg-brand-50 text-brand-800",
-                  )}
-                  aria-hidden="true"
-                >
-                  {layer.index}
-                </span>
-                <h3 className="text-body-lg font-semibold text-gray-950">
-                  <span className="sr-only">Layer {layer.index}: </span>
-                  {layer.name}
-                </h3>
-              </div>
-              <ul className="mt-4 space-y-3">
-                {nodes.map((n) => (
-                  <li key={n.id} className="space-y-1.5">
-                    <p className="flex items-center gap-2 text-body-md font-medium text-gray-800">
-                      <span className="text-brand-700">
-                        <Icon name={n.icon} size={18} />
-                      </span>
-                      {n.name}
-                    </p>
-                    <StatusBadge status={n.status} />
-                  </li>
-                ))}
-              </ul>
-            </li>
-          );
-        })}
-      </ol>
+    <Section
+      id="architecture"
+      eyebrow={sections.architecture.eyebrow}
+      title={sections.architecture.title}
+      intro={sections.architecture.intro}
+      tone="gray"
+    >
+      <div className="mb-6">
+        <Badge tone="green">End-to-end prototype implemented</Badge>
+      </div>
 
-      <ul className="mt-6 flex flex-wrap items-center gap-2" aria-label="Status legend">
-        {statusOrder.map((s) => (
-          <li key={s}>
-            <StatusBadge status={s} />
+      <ol
+        className="relative grid gap-4 sm:grid-cols-2 lg:grid-cols-7 lg:gap-3"
+        aria-label="SmartPharma workflow stages"
+      >
+        <div
+          aria-hidden="true"
+          className="absolute left-5 top-5 bottom-5 w-px bg-brand-200 sm:hidden"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute left-[7%] right-[7%] top-5 hidden h-px bg-brand-200 lg:block"
+        />
+        {architectureStages.map((stage, index) => (
+          <li
+            key={stage.id}
+            className={cn(
+              "relative rounded-feature border bg-white p-4 shadow-sm",
+              "lg:min-h-[250px]",
+              stage.id === "bedside-verification" ? "border-2 border-brand-600" : "border-gray-200",
+            )}
+          >
+            <div className="relative z-10 flex items-center gap-3">
+              <span
+                className={cn(
+                  "flex size-10 shrink-0 items-center justify-center rounded-full text-body-md font-semibold",
+                  stage.id === "bedside-verification"
+                    ? "bg-brand-700 text-white"
+                    : "bg-brand-50 text-brand-800",
+                )}
+                aria-hidden="true"
+              >
+                {index + 1}
+              </span>
+              <span className="text-brand-700">
+                <Icon name={stage.icon} size={20} />
+              </span>
+            </div>
+            <h3 className="mt-4 text-body-lg font-semibold text-gray-950">{stage.title}</h3>
+            <p className="mt-2 text-body-md leading-6 text-gray-600">{stage.description}</p>
           </li>
         ))}
-      </ul>
+      </ol>
 
-      {/* Technical details: native disclosure, works without JavaScript and is keyboard accessible. */}
-      <details className="group mt-6 rounded-card border border-gray-200 bg-white">
-        <summary className="t-fast flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-card px-4 py-3 text-body-md font-semibold text-gray-950 hover:bg-gray-50">
-          Technical details
-          <ChevronDown size={20} aria-hidden="true" className="shrink-0 transition-transform duration-150 group-open:rotate-180" />
-        </summary>
-        <dl className="grid gap-3 border-t border-gray-150 p-4 md:grid-cols-2">
-          {architectureNodes.map((n) => (
-            <div key={n.id} className="rounded-ctrl border border-gray-200 p-3">
-              <dt className="flex flex-wrap items-center justify-between gap-2 text-body-md font-semibold text-gray-950">
-                {n.name}
-                <StatusBadge status={n.status} />
-              </dt>
-              <dd className="mt-2 text-body-md text-gray-600">{n.role}</dd>
-              <dd className="mt-1 text-body-md text-gray-800">
-                <Ph text={n.technicalDetail} />
-              </dd>
-            </div>
-          ))}
-        </dl>
-        <p className="border-t border-gray-150 p-4 text-body-md text-gray-600">
-          {statusOrder
-            .filter((s) => s !== "unconfirmed")
-            .map((s) => `${statusMeta[s].label}: ${statusMeta[s].description}`)
-            .join(" ")}
-        </p>
-      </details>
+      <article className="mt-4 rounded-feature border border-brand-200 bg-brand-50 p-5 sm:p-6">
+        <h3 className="text-body-lg font-semibold text-gray-950">{architectureAudit.title}</h3>
+        <p className="mt-2 text-body-md leading-6 text-gray-700">{architectureAudit.description}</p>
+      </article>
     </Section>
   );
 }
