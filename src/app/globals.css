@@ -1,0 +1,554 @@
+@import "tailwindcss";
+
+/*
+  SmartPharma design tokens
+  -------------------------
+  Foundation tokens adapted from the Blend-inspired spec in smartpharma_enterprise_ui.md.
+
+  Deliberate, documented deviations (all for WCAG 2.2 AA):
+  1. Primary Blue 500 (#2B7FFF) is only ~3.7:1 on white, so it is used for
+     non-text accents (borders, active indicators, icons). Filled buttons and
+     link text use Primary 600 (#0561E2, ~5.5:1) so white-on-blue text passes.
+  2. Gray 500 (#717784) is ~4.49:1 on white, just under AA. Secondary body
+     text therefore uses Gray 600 (#525866). Gray 500 is for large or
+     non-essential text only.
+  3. Status text uses darker steps (green 800, yellow 800, red 700) because the
+     500/600 steps fall below 4.5:1 as text. The 500 steps remain for icons.
+  4. Brand accent: the supplied Blend palette is blue-only. SmartPharma adds a
+     healthcare green "brand" scale for CTAs and accents. Blue stays for
+     "retrieved evidence" and green status colours keep their meaning.
+  5. The spec's focus ring (3px #EFF6FF) is nearly invisible on white, so focus
+     uses a 2px Primary 600 outline with offset instead.
+*/
+
+@theme {
+  --color-*: initial;
+
+  --color-white: #ffffff;
+  --color-black: #050506;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Gray (neutral foundation) */
+  --color-gray-25: #fcfcfd;
+  --color-gray-50: #f5f7fa;
+  --color-gray-100: #f2f4f8;
+  --color-gray-150: #eceff3;
+  --color-gray-200: #e1e4ea;
+  --color-gray-300: #cacfd8;
+  --color-gray-400: #99a0ae;
+  --color-gray-500: #717784;
+  --color-gray-600: #525866;
+  --color-gray-700: #2b303b;
+  --color-gray-800: #222530;
+  --color-gray-900: #181b25;
+  --color-gray-950: #0e121b;
+
+  /* Primary (clinical blue) */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bedbff;
+  --color-primary-400: #51a2ff;
+  --color-primary-500: #2b7fff;
+  --color-primary-600: #0561e2;
+  --color-primary-700: #1447e6;
+  --color-primary-950: #162456;
+
+  /* Brand (healthcare green): CTAs, logo, active nav, accents. */
+  --color-brand-50: #ecfdf5;
+  --color-brand-100: #d1fae5;
+  --color-brand-200: #a7f3d0;
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
+  --color-brand-800: #065f46;
+  --color-brand-900: #064e3b;
+  --color-brand-950: #022c22;
+
+  /* Green: verified states */
+  --color-green-50: #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-200: #b9f8cf;
+  --color-green-500: #00c951;
+  --color-green-600: #00a63e;
+  --color-green-700: #008236;
+  --color-green-800: #016630;
+
+  /* Yellow / amber: review required */
+  --color-yellow-50: #fefce8;
+  --color-yellow-100: #fef9c2;
+  --color-yellow-200: #fff085;
+  --color-yellow-500: #efb100;
+  --color-yellow-800: #733e0a;
+
+  /* Orange: attention */
+  --color-orange-100: #ffedd4;
+  --color-orange-500: #ff6900;
+  --color-orange-800: #7e2a0c;
+
+  /* Red: critical only */
+  --color-red-50: #fef2f2;
+  --color-red-100: #ffe2e2;
+  --color-red-200: #ffc9c9;
+  --color-red-500: #fb2c36;
+  --color-red-600: #e7000b;
+  --color-red-700: #c10007;
+  --color-red-800: #9f0712;
+
+  /* Purple: used once, for "model-generated" content labelling */
+  --color-purple-50: #faf5ff;
+  --color-purple-100: #f3e8ff;
+  --color-purple-200: #e9d4ff;
+  --color-purple-500: #ad46ff;
+  --color-purple-800: #6e11b0;
+
+  --font-sans:
+    "Inter Variable", -apple-system, system-ui, Roboto, "Helvetica Neue", sans-serif;
+  --font-display: Arial, Helvetica, sans-serif;
+  --font-mono: "SF Mono", Menlo, Monaco, Consolas, monospace;
+
+  /* Type scale (Blend hierarchy). */
+  --text-display-sm: 48px;
+  --text-display-sm--line-height: 56px;
+  --text-h2xl: 40px;
+  --text-h2xl--line-height: 46px;
+  --text-hxl: 32px;
+  --text-hxl--line-height: 38px;
+  --text-hlg: 24px;
+  --text-hlg--line-height: 32px;
+  --text-hmd: 20px;
+  --text-hmd--line-height: 28px;
+  --text-hsm: 18px;
+  --text-hsm--line-height: 24px;
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 24px;
+  --text-body-md: 14px;
+  --text-body-md--line-height: 20px;
+  --text-label: 12px;
+  --text-label--line-height: 16px;
+
+  /* Radius scale */
+  --radius-tag: 4px;
+  --radius-ctrl: 8px;
+  --radius-card: 12px;
+  --radius-modal: 16px;
+  --radius-feature: 20px;
+
+  /* Restrained elevation */
+  --shadow-xs: 0px 1px 1px 0px rgb(5 5 6 / 0.04);
+  --shadow-sm: 0px 2px 3px 0px rgb(5 5 6 / 0.05);
+  --shadow-md: 0px 2px 8px 1px rgb(5 5 6 / 0.07);
+  --shadow-lg: 0px 3px 16px 3px rgb(5 5 6 / 0.07);
+  --shadow-xl: 0px 10px 20px 3px rgb(5 5 6 / 0.07);
+  --shadow-2xl: 0px 12px 24px 4px rgb(5 5 6 / 0.07);
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1440px;
+
+  --container-page: 1200px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-white);
+    color: var(--color-gray-950);
+    font-family: var(--font-sans);
+    font-optical-sizing: auto;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+    min-width: 320px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  /* Visible keyboard focus for every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-700);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-brand-100);
+    color: var(--color-gray-950);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: var(--container-page);
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+  @media (min-width: 640px) {
+    .container-page {
+      padding-inline: 24px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container-page {
+      padding-inline: 32px;
+    }
+  }
+
+  .label-caps {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* 120-200ms micro-interactions only. */
+  .t-fast {
+    transition-property: color, background-color, border-color, box-shadow, opacity;
+    transition-duration: 150ms;
+    transition-timing-function: ease-out;
+  }
+
+  .scroll-x {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@layer components {
+  /* Visible, searchable placeholder for unverified content. */
+  .ph {
+    display: inline;
+    padding: 0 4px;
+    border: 1px dashed var(--color-yellow-500);
+    border-radius: 4px;
+    background: var(--color-yellow-50);
+    color: var(--color-yellow-800);
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    font-weight: 500;
+    line-height: inherit;
+    overflow-wrap: anywhere;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* Focus ring on dark bands. */
+  .on-dark :focus-visible {
+    outline-color: var(--color-white);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  html.menu-open {
+    overflow: hidden;
+  }
+
+  details > summary {
+    list-style: none;
+  }
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Motion. All of it is decorative and is disabled by prefers-reduced-motion
+   (the base layer collapses animation/transition durations).          */
+/* ------------------------------------------------------------------ */
+@layer components {
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes shine {
+    from {
+      transform: translateX(-120%);
+    }
+    to {
+      transform: translateX(420%);
+    }
+  }
+  @keyframes shine-y {
+    from {
+      transform: translateY(-120%);
+    }
+    to {
+      transform: translateY(420%);
+    }
+  }
+  @keyframes node-on {
+    0%,
+    4% {
+      border-color: var(--color-gray-200);
+      background-color: var(--color-white);
+      box-shadow: 0 0 0 0 rgb(16 185 129 / 0);
+      color: var(--color-gray-600);
+    }
+    8%,
+    22% {
+      border-color: var(--color-brand-600);
+      background-color: var(--color-brand-50);
+      box-shadow: 0 0 0 8px rgb(16 185 129 / 0.14);
+      color: var(--color-brand-800);
+    }
+    30%,
+    100% {
+      border-color: var(--color-gray-200);
+      background-color: var(--color-white);
+      box-shadow: 0 0 0 0 rgb(16 185 129 / 0);
+      color: var(--color-gray-600);
+    }
+  }
+  @keyframes scroll-cue {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translateY(6px);
+      opacity: 1;
+    }
+  }
+
+  .rise {
+    animation: rise 800ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--d, 0) * 1ms);
+  }
+  .flow-shine {
+    animation: shine 3.2s ease-in-out infinite;
+  }
+  .flow-shine-y {
+    animation: shine-y 3.2s ease-in-out infinite;
+  }
+  .flow-node {
+    animation: node-on 8s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 2s);
+  }
+  .scroll-cue {
+    animation: scroll-cue 2s ease-in-out infinite;
+  }
+
+  /* Scroll reveal: only applied by JS to elements that start below the fold. */
+  .reveal-hidden {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  .reveal {
+    transition:
+      opacity 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: calc(var(--d, 0) * 1ms);
+  }
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Hero backdrop and animated wordmark                                */
+/* ------------------------------------------------------------------ */
+@layer components {
+  /* Ambient orbs: slow drifting greens, always moving. */
+  @keyframes orb-a {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    33% {
+      transform: translate3d(6vw, 5vh, 0) scale(1.12);
+    }
+    66% {
+      transform: translate3d(-3vw, 9vh, 0) scale(0.94);
+    }
+  }
+  @keyframes orb-b {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(-8vw, -7vh, 0) scale(1.16);
+    }
+  }
+  @keyframes orb-c {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1.05);
+    }
+    40% {
+      transform: translate3d(7vw, -6vh, 0) scale(0.9);
+    }
+    75% {
+      transform: translate3d(-5vw, 3vh, 0) scale(1.1);
+    }
+  }
+  @keyframes breathe {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.85;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    background: radial-gradient(closest-side, var(--c), transparent);
+    will-change: transform;
+  }
+  .orb-a {
+    animation: orb-a 22s ease-in-out infinite;
+  }
+  .orb-b {
+    animation: orb-b 26s ease-in-out infinite;
+  }
+  .orb-c {
+    animation: orb-c 30s ease-in-out infinite;
+  }
+
+  /* Cursor followers: JS only sets --fNx / --fNy (px, relative to the hero). */
+  .follower {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    will-change: translate;
+    translate: calc(var(--x) * 1px - 50%) calc(var(--y) * 1px - 50%);
+  }
+  .follower > .orb {
+    inset: 0;
+    animation: breathe 6s ease-in-out infinite;
+  }
+  .follower-spot {
+    transition: opacity 600ms ease-out;
+  }
+  .backdrop:not([data-active="true"]) .follower-spot {
+    opacity: 0;
+  }
+
+  /* ---- Wordmark ---- */
+  @keyframes letter-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.45em) rotate(5deg);
+      filter: blur(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+  }
+  @keyframes wm-float {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -0.03em;
+    }
+  }
+  /* A lighter green wave passes through the letters. Both ends keep >= 3:1 even on the
+     strongest part of the backdrop (checked by sampling real pixels, see README). */
+  @keyframes wm-wave {
+    0%,
+    48%,
+    100% {
+      color: var(--color-brand-900);
+    }
+    24% {
+      color: var(--color-brand-700);
+    }
+  }
+
+  .wm {
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .wm-l {
+    display: inline-block;
+    /* "backwards": hold the hidden state during the delay, then return to natural styles. */
+    animation: letter-in 900ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+    animation-delay: calc(450ms + var(--i) * 70ms);
+  }
+  .wm-g {
+    display: inline-block;
+    color: var(--color-brand-900);
+    transform: translateY(calc(var(--y, 0) * -1em)) scale(var(--s, 1));
+    transform-origin: 50% 80%;
+    transition: transform 180ms ease-out;
+    animation:
+      wm-float 7s ease-in-out infinite,
+      wm-wave 6s ease-in-out infinite;
+    animation-delay: calc(1.5s + var(--i) * 0.18s), calc(1.6s + var(--i) * 0.16s);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise,
+    .wm-l,
+    .wm-g,
+    .orb-a,
+    .orb-b,
+    .orb-c,
+    .follower > .orb {
+      animation: none !important;
+    }
+    .wm-g {
+      transform: none !important;
+    }
+    .follower-spot {
+      opacity: 0 !important;
+    }
+  }
+}

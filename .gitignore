@@ -1,0 +1,45 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+/dist/
+
+# misc
+.DS_Store
+Thumbs.db
+*.pem
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# env files (this project needs none, but never commit them)
+.env*
+!.env.example
+
+# vercel
+/.vercel/
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# test and tooling caches
+/coverage/
+.eslintcache
+.cache/
+.turbo/
+
+# local editor settings
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
