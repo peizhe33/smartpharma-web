@@ -9,6 +9,7 @@ import type { IconKey } from "./types";
 
 export const nav = [
   { id: "overview", label: "Overview", href: "#overview" },
+  { id: "prototype", label: "Prototype", href: "#prototype" },
   { id: "workflow", label: "Workflow", href: "#workflow" },
   { id: "architecture", label: "Architecture", href: "#architecture" },
   { id: "validation", label: "Validation", href: "#validation" },

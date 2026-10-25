@@ -111,3 +111,22 @@ export interface TechGroup {
   icon: IconKey;
   items: TechItem[];
 }
+
+/** A labelled hardware part shown on the "Inside" photo and in the list beneath it. */
+export interface PrototypeComponent {
+  id: string;
+  name: string;
+  /** Short role description. */
+  purpose: string;
+  /** Spec or detail. Keep as an "[ADD ...]" placeholder until verified. */
+  detail: string;
+  /** Pin position on the Inside photo, as a percentage of its width and height. */
+  pin: { x: number; y: number };
+}
+
+export interface PrototypeImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}

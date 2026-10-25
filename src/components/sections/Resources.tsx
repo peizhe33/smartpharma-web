@@ -36,7 +36,7 @@ function ResourceCard({ resource }: { resource: ProjectLink }) {
       <span className="min-w-0 flex-1">
         <span className="block text-body-lg font-semibold text-gray-950">{resource.title}</span>
         {!available && (
-          <span className="mt-0.5 block text-body-md text-gray-600">
+          <span className="mt-0.5 block text-body-md text-gray-600 [overflow-wrap:anywhere]">
             Not yet available <Ph text={resource.placeholder} />
           </span>
         )}

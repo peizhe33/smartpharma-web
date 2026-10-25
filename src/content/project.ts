@@ -17,7 +17,7 @@
  * ============================================================================
  */
 
-import type { ImplementationStatus, Metric, ProjectLink, TechGroup } from "./types";
+import type { ImplementationStatus, Metric, PrototypeComponent, PrototypeImage, ProjectLink, TechGroup } from "./types";
 
 /* -------------------------------------------------------------------------- */
 /* Identity                                                                   */
@@ -342,3 +342,89 @@ export const techStack: TechGroup[] = [
     ],
   },
 ];
+
+/* -------------------------------------------------------------------------- */
+/* Physical prototype                                                         */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The "Meet the prototype" section. Photos live in public/images/prototype/.
+ * To swap a photo, use a new filename, update its dimensions, and change
+ * `src` so optimized image caches cannot serve the previous file.
+ * Replace each "[ADD ...]" only with a verified fact.
+ */
+export const prototype = {
+  eyebrow: "The prototype",
+  /** One line under the heading. */
+  description:
+    "An AI-powered medication verification and clinical decision-support system",
+  front: {
+    image: {
+      src: "/images/prototype/front.webp",
+      alt: "Two hands holding the SmartPharma prototype: a touchscreen in a purple frame showing the SmartPharma Portal, with Patient Database and Patient View options.",
+      width: 1536,
+      height: 1024,
+    } satisfies PrototypeImage,
+    caption: "Front",
+    detail: "Touchscreen review portal",
+  },
+  back: {
+    image: {
+      src: "/images/prototype/back-v4.webp",
+      alt: "Back of the purple prototype casing, with a camera opening and two ventilation grilles.",
+      width: 1024,
+      height: 900,
+    } satisfies PrototypeImage,
+    caption: "Back",
+    detail: "Camera opening and ventilation",
+  },
+  inside: {
+    image: {
+      src: "/images/prototype/inside.webp",
+      alt: "The prototype opened up, showing a Raspberry Pi with a heatsink and fan, a camera module on a ribbon cable, and the display panel resting on the purple casing.",
+      width: 700,
+      height: 555,
+    } satisfies PrototypeImage,
+    caption: "Inside",
+    detail: "Main parts of the prototype",
+  },
+  /** Pins are placed on the Inside photo. Order = number shown. */
+  components: [
+    {
+      id: "pi",
+      name: "Raspberry Pi 5",
+      purpose: "Runs the kiosk software and coordinates the prototype hardware.",
+      detail: "[ADD RAM VARIANT AND ROLE]",
+      pin: { x: 53, y: 24 },
+    },
+    {
+      id: "cooler",
+      name: "Cooling",
+      purpose: "Helps manage heat while the prototype is operating.",
+      detail: "[ADD COOLER MODEL]",
+      pin: { x: 37.1, y: 45.5 },
+    },
+    {
+      id: "camera",
+      name: "Pi Camera",
+      purpose: "Captures the medication packaging or information shown to the kiosk.",
+      detail: "[ADD CAMERA MODEL AND PURPOSE]",
+      pin: { x: 73.6, y: 44.6 },
+    },
+    {
+      id: "display",
+      name: "Touchscreen display",
+      purpose: "Presents the interactive verification interface to the reviewer.",
+      detail: "[ADD DISPLAY SIZE AND MODEL]",
+      pin: { x: 25.7, y: 73.2 },
+    },
+    {
+      id: "casing",
+      name: "Casing",
+      purpose: "Houses and protects the prototype hardware.",
+      detail: "[ADD CASING MATERIAL AND HOW IT WAS MADE]",
+      pin: { x: 84.3, y: 76.8 },
+    },
+  ] satisfies PrototypeComponent[],
+  notice: "Research prototype. Synthetic data only. Not a medical device.",
+};

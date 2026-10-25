@@ -4,6 +4,7 @@ import { FinalCta } from "@/components/sections/FinalCta";
 import { Hero } from "@/components/sections/Hero";
 import { Impact } from "@/components/sections/Impact";
 import { Problem } from "@/components/sections/Problem";
+import { Prototype } from "@/components/sections/Prototype";
 import { Resources } from "@/components/sections/Resources";
 import { Stack } from "@/components/sections/Stack";
 import { TrustStrip } from "@/components/sections/TrustStrip";
@@ -14,8 +15,9 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <TrustStrip />
+      <Prototype />
       <Problem />
+      <TrustStrip />
       <Workflow />
       <Demo />
       <Architecture />
