@@ -240,61 +240,71 @@ export const contribution = {
 /* -------------------------------------------------------------------------- */
 
 /**
- * Technologies used by the SmartPharma SYSTEM (not this website). RAG and
- * QLoRA come from the project brief; confirm they are accurate. Everything
- * else is a placeholder.
+ * Technologies used by the SmartPharma SYSTEM (not this website).
+ * `primary: true` renders the chip in the highlighted style (the lead
+ * technology of each layer). Replace anything in "[ADD ...]" with a verified fact.
  */
 export const techStack: TechGroup[] = [
   {
-    id: "interface",
-    title: "Interface and application",
-    description: "How reviewers interact with the system.",
+    id: "application",
+    title: "Application and interface",
+    description: "Cross-platform doctor and pharmacist app for prescription entry, alert review and verification.",
     icon: "monitor",
     items: [
-      { name: "[ADD FRONTEND TECHNOLOGY]", purpose: "[ADD PURPOSE]", icon: "monitor" },
-      { name: "[ADD BACKEND TECHNOLOGY]", purpose: "[ADD PURPOSE]", icon: "server" },
+      { name: "Flutter", purpose: "Shared cross-platform application", icon: "layers", primary: true },
+      { name: "Dart", purpose: "Application language", icon: "code" },
+      { name: "Android", purpose: "Mobile client", icon: "monitor" },
+      { name: "Windows", purpose: "Desktop client", icon: "monitor" },
+    ],
+  },
+  {
+    id: "backend",
+    title: "Backend and clinical data",
+    description: "API processing, relational clinical records, authentication and role-based data access.",
+    icon: "server",
+    items: [
+      { name: "Python Flask", purpose: "AI verification API", icon: "server", primary: true },
+      { name: "Supabase", purpose: "Authentication and data services", icon: "database", primary: true },
+      { name: "PostgreSQL", purpose: "Relational clinical records", icon: "database" },
+      { name: "REST API", purpose: "Application to AI-service communication", icon: "network" },
+      { name: "Row Level Security", purpose: "Role-controlled data access", icon: "lock" },
     ],
   },
   {
     id: "ai",
-    title: "AI and retrieval",
-    description: "Retrieval, language model and adaptation.",
-    icon: "network",
+    title: "AI and clinical intelligence",
+    description: "Exact safety rules, guideline retrieval and a fine-tuned local language model working together.",
+    icon: "cpu",
     items: [
-      {
-        name: "Retrieval-augmented generation (RAG)",
-        purpose: "Grounds model analysis in retrieved reference passages.",
-        icon: "search",
-      },
-      {
-        name: "QLoRA fine-tuning",
-        purpose: "Parameter-efficient adaptation of the base language model.",
-        icon: "cpu",
-      },
-      { name: "[ADD BASE MODEL]", purpose: "[ADD PURPOSE]", icon: "cpu" },
-      { name: "[ADD VECTOR STORE / RETRIEVAL TOOLING]", purpose: "[ADD PURPOSE]", icon: "database" },
+      { name: "Qwen2.5-7B-Instruct", purpose: "Base language model", icon: "cpu", primary: true },
+      { name: "QLoRA", purpose: "Parameter-efficient fine-tuning", icon: "cpu" },
+      { name: "RAG", purpose: "Retrieval-augmented generation", icon: "book-open" },
+      { name: "ChromaDB", purpose: "Semantic retrieval store", icon: "database" },
+      { name: "PubMedBERT", purpose: "Biomedical embeddings", icon: "flask" },
+      { name: "BM25 + Cross-Encoder", purpose: "Reranking", icon: "search" },
+      { name: "Deterministic safety checks", purpose: "Allergy, dose, frequency, duplication and indication rules", icon: "shield-check" },
     ],
   },
   {
-    id: "data",
-    title: "Data and evaluation",
-    description: "Knowledge sources, test sets and measurement.",
-    icon: "flask",
+    id: "deployment",
+    title: "Local deployment and hardware",
+    description:
+      "Private local inference and multi-device access over the ward network. [ADD WHAT THE RASPBERRY PI RUNS: BEDSIDE KIOSK OR MODEL HOST]",
+    icon: "rocket",
     items: [
-      { name: "[ADD DATA SOURCE]", purpose: "[ADD PURPOSE]", icon: "library" },
-      { name: "[ADD EVALUATION TOOLING]", purpose: "[ADD PURPOSE]", icon: "bar-chart" },
+      { name: "Ollama", purpose: "Local model serving", icon: "rocket", primary: true },
+      { name: "GGUF Q4_K_M", purpose: "Quantised model format", icon: "package" },
+      { name: "Local REST API", purpose: "Ward-network access", icon: "network" },
+      { name: "Raspberry Pi 5", purpose: "Bedside hardware", icon: "cpu" },
     ],
   },
-  {
-    id: "tooling",
-    title: "Deployment and tooling",
-    description: "How the project is built, run and shared.",
-    icon: "wrench",
-    items: [
-      { name: "[ADD DEPLOYMENT / RUNTIME]", purpose: "[ADD PURPOSE]", icon: "rocket" },
-      { name: "[ADD DEVELOPMENT TOOLING]", purpose: "[ADD PURPOSE]", icon: "terminal" },
-    ],
-  },
+];
+
+/** Smaller strip under the four cards. */
+export const stackExtras = [
+  { id: "model-dev", label: "Model development", items: ["Google Colab", "Unsloth", "Hugging Face", "TRL"] },
+  { id: "delivery", label: "Source control and delivery", items: ["GitHub", "Android Studio"] },
+  { id: "website", label: "This portfolio website", items: ["Next.js", "TypeScript", "Tailwind CSS"] },
 ];
 
 /* -------------------------------------------------------------------------- */

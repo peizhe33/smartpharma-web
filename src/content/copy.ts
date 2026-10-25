@@ -160,9 +160,9 @@ export const sections = {
   },
   stack: {
     eyebrow: "Stack",
-    title: "Built with.",
-    intro: "",
-    siteNote: "This site: Next.js, TypeScript, Tailwind CSS. No analytics or third-party scripts.",
+    title: "Technology behind SmartPharma.",
+    intro:
+      "The application, clinical AI pipeline, data services and local deployment technologies powering the completed prototype.",
   },
   recognition: {
     eyebrow: "Recognition",

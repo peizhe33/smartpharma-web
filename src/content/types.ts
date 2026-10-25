@@ -102,6 +102,8 @@ export interface TechItem {
   name: string;
   purpose: string;
   icon: IconKey;
+  /** Lead technology of its layer: shown in the highlighted chip style. */
+  primary?: boolean;
 }
 
 export interface TechGroup {

@@ -1,4 +1,5 @@
 import { ArrowRight, Check, Info } from "lucide-react";
+import { MethodologyExplorer } from "@/components/MethodologyExplorer";
 import { Badge } from "@/components/ui/Badge";
 import { Section } from "@/components/ui/Section";
 import { sections } from "@/content";
@@ -59,16 +60,51 @@ const validationData = {
     ["Workflow efficiency", "4.6/5"],
     ["Clinical trust", "4.4/5"],
   ],
-  methodology: [
-    ["Evaluation design", "Sequential three-stage prototype evaluation consisting of simulated case testing, system refinement and pharmacist-reviewed anonymised case validation."],
-    ["Phase 1 dataset", "Thirty simulated guideline-based cases were used in Phase 1A. The system was refined and evaluated again using 30 simulated guideline-based cases in Phase 1B."],
-    ["Reference standard", "System responses were compared with guideline-based answers during simulated testing. Phase 2 outputs were validated by two UMMC pharmacists."],
-    ["Measures", "Safety issue detection, guideline agreement, citation support, average review time, unsafe prescription detection, alert precision, safe prescription recognition and target-user ratings."],
-    ["Phase 2 evaluation set", "Twenty anonymised real UMMC patient test cases were used for pharmacist-reviewed prototype validation."],
-    ["User evaluation", "Five UMMC medical staff assessed clinical usefulness, ease of use, workflow efficiency and clinical trust."],
-    ["Evaluation limitations", "Phase 2 used a limited set of 20 anonymised test cases, while the target-user survey included five medical staff. The findings demonstrate prototype feasibility but do not establish clinical effectiveness or readiness for autonomous clinical use."],
-    ["Reproducibility", "Evaluation metrics were calculated from recorded system outputs, guideline-based reference answers and pharmacist review outcomes. Personally identifiable patient information was not included in the portfolio."],
+  evaluationStages: [
+    {
+      id: "1a",
+      tab: "Phase 1A",
+      name: "Simulated testing",
+      count: 30,
+      unit: "simulated guideline-based cases",
+      checkLabel: "Compared with",
+      check: "Guideline-based reference answers",
+      measures: ["Safety issue detection", "Guideline agreement", "Citation support", "Average review time"],
+    },
+    {
+      id: "1b",
+      tab: "Phase 1B",
+      name: "Refined and retested",
+      count: 30,
+      unit: "simulated guideline-based cases",
+      checkLabel: "Same checks, after refinement",
+      check: "Guideline-based reference answers",
+      measures: ["Safety issue detection", "Guideline agreement", "Citation support", "Average review time"],
+    },
+    {
+      id: "2",
+      tab: "Phase 2",
+      name: "Pharmacist review",
+      count: 20,
+      unit: "anonymised UMMC patient test cases",
+      checkLabel: "Validated by",
+      check: "Two UMMC pharmacists",
+      measures: ["Unsafe prescription detection", "Alert precision", "Safe prescription recognition"],
+    },
+    {
+      id: "survey",
+      tab: "User survey",
+      name: "Target-user ratings",
+      count: 5,
+      unit: "UMMC medical staff",
+      checkLabel: "Collected from",
+      check: "Target users, by rating survey",
+      measures: ["Clinical usefulness", "Ease of use", "Workflow efficiency", "Clinical trust"],
+    },
   ],
+  limits: "Small samples: 20 anonymised cases and 5 staff. Shows prototype feasibility, not clinical effectiveness.",
+  reproducibility:
+    "Metrics were calculated from recorded system outputs, guideline-based reference answers and pharmacist review outcomes. No personally identifiable patient information is included in this portfolio.",
 };
 
 export function Validation() {
@@ -210,19 +246,13 @@ export function Validation() {
         </p>
       </section>
 
-      <section className="mt-12 rounded-card border border-gray-200 bg-white" aria-labelledby="methodology-title">
-        <div className="border-b border-gray-150 p-5 sm:p-6">
-          <h3 id="methodology-title" className="text-hsm font-semibold text-gray-950">Evaluation methodology</h3>
-        </div>
-        <dl className="grid gap-5 p-5 sm:grid-cols-2 sm:p-6">
-          {validationData.methodology.map(([label, value]) => (
-            <div key={label}>
-              <dt className="label-caps text-gray-600">{label}</dt>
-              <dd className="mt-1 text-body-md leading-6 text-gray-700">{value}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
+      <div className="mt-12">
+        <MethodologyExplorer
+          stages={validationData.evaluationStages}
+          limits={validationData.limits}
+          reproducibility={validationData.reproducibility}
+        />
+      </div>
 
       <p className="mt-5 flex items-start gap-2 text-body-md text-gray-600">
         <Info size={18} aria-hidden="true" className="mt-0.5 shrink-0 text-brand-700" />
