@@ -70,7 +70,7 @@ export const workflow = {
       id: "capture",
       icon: "clipboard-list" as IconKey,
       title: "Capture",
-      summary: "The order is entered and structured.",
+      summary: "The prescription is entered and structured.",
       input: "A medication order, entered or captured.",
       action: "The order is validated and normalised into a structured form.",
       output: "A structured order ready for review.",
