@@ -7,15 +7,19 @@ import type { ProjectLink } from "@/content";
 import { isExternalHref } from "@/lib/links";
 import { cn } from "@/lib/cn";
 
+const hiddenResourceIds = new Set(["linkedin", "contact"]);
+
 export function Resources() {
   return (
     <Section id="resources" eyebrow={sections.resources.eyebrow} title={sections.resources.title}>
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {resources.map((r) => (
-          <li key={r.id}>
-            <ResourceCard resource={r} />
-          </li>
-        ))}
+        {resources
+          .filter((r) => !hiddenResourceIds.has(r.id))
+          .map((r) => (
+            <li key={r.id}>
+              <ResourceCard resource={r} />
+            </li>
+          ))}
       </ul>
     </Section>
   );

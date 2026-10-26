@@ -7,6 +7,8 @@ import { identity, nav, recognition } from "@/content";
 import { resolveLink } from "@/lib/links";
 import { getSiteUrl, hasKnownSiteUrl } from "@/lib/site-url";
 
+const visibleNav = nav.filter((item) => item.id !== "impact");
+
 const title = `${identity.name}: ${identity.descriptor}`;
 const description =
   "SmartPharma is a research and demonstration project that assists inpatient medication-order review with retrieval, model reasoning and transparent evidence, always under human oversight. Not for clinical use.";
@@ -76,7 +78,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Skip to main content
         </a>
-        <SiteHeader nav={nav} demo={demo} github={github} badge={recognition.headerBadge} />
+        <SiteHeader nav={visibleNav} demo={demo} github={github} badge={recognition.headerBadge} />
         <main id="main" tabIndex={-1} className="outline-none">
           {children}
         </main>

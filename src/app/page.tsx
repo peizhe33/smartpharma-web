@@ -11,6 +11,8 @@ import { TrustStrip } from "@/components/sections/TrustStrip";
 import { Validation } from "@/components/sections/Validation";
 import { Workflow } from "@/components/sections/Workflow";
 
+const showImpactSection = false;
+
 export default function HomePage() {
   return (
     <>
@@ -23,7 +25,7 @@ export default function HomePage() {
       <Architecture />
       <Validation />
       <Stack />
-      <Impact />
+      {showImpactSection && <Impact />}
       <Resources />
       <FinalCta />
     </>

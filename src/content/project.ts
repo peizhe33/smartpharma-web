@@ -59,7 +59,7 @@ export const resources: ProjectLink[] = [
     title: "Source code",
     description: "GitHub repository with the implementation and evaluation code.",
     icon: "git-branch",
-    href: null,
+    href: "https://github.com/peizhe33/uipharma.git",
     placeholder: "[ADD GITHUB URL]",
   },
   {
@@ -67,7 +67,7 @@ export const resources: ProjectLink[] = [
     title: "Technical report",
     description: "Full methodology, dataset description and results.",
     icon: "file-text",
-    href: null,
+    href: "https://canva.link/fxlb74v09iulg51",
     placeholder: "[ADD TECHNICAL REPORT]",
   },
   {
@@ -75,7 +75,7 @@ export const resources: ProjectLink[] = [
     title: "Project poster",
     description: "One-page visual summary prepared for the project.",
     icon: "image",
-    href: null,
+    href: "https://canva.link/arywvborco6c0w1",
     placeholder: "[ADD PROJECT POSTER]",
   },
   {
@@ -83,7 +83,7 @@ export const resources: ProjectLink[] = [
     title: "Presentation slides",
     description: "Slide deck used to present the project.",
     icon: "presentation",
-    href: null,
+    href: "https://canva.link/eze5gjknxb15br8",
     placeholder: "[ADD PRESENTATION SLIDES]",
   },
   {
