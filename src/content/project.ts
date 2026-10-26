@@ -51,7 +51,7 @@ export const resources: ProjectLink[] = [
     title: "Recorded demo",
     description: "Walkthrough video of SmartPharma reviewing a medication order.",
     icon: "play",
-    href: null,
+    href: "https://youtu.be/n58KnFCgxWk",
     placeholder: "[ADD DEMO VIDEO URL]",
   },
   {
