@@ -21,32 +21,31 @@ export function Prototype() {
     <section
       id="prototype"
       aria-labelledby="prototype-title"
-      className="relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-white"
+      className="prototype-showcase relative isolate overflow-hidden"
     >
-      <div className="container-page py-16 sm:py-24 lg:py-28">
+      <div className="prototype-atmosphere" aria-hidden="true" />
+      <div className="container-page relative py-16 sm:py-24 lg:py-28">
         <Reveal>
-          <header className="mx-auto max-w-3xl text-center">
-            <p className="label-caps text-brand-700">{prototype.eyebrow}</p>
-            <h2
-              id="prototype-title"
-              className="mt-4 font-display text-[clamp(36px,7vw,72px)] leading-[1.02] font-semibold tracking-[-0.02em] text-gray-950"
-            >
-              <span className="block font-light text-gray-600">Meet the</span>
-              <span className="block text-brand-700">prototype.</span>
+          <header className="prototype-header mx-auto max-w-3xl text-center">
+            <p className="prototype-eyebrow label-caps">{prototype.eyebrow}</p>
+            <h2 id="prototype-title" className="prototype-title">
+              <span className="prototype-title-intro block">Meet the</span>
+              <span className="prototype-title-accent block">prototype.</span>
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-body-lg text-gray-600 sm:text-hsm">
+            <p className="prototype-description mx-auto mt-5 max-w-xl text-body-lg sm:text-hsm">
               <Ph text={prototype.description} />
             </p>
-            <div className="mt-7 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+            <div className="prototype-actions mt-7 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
               <ButtonLink
                 href={demo.href}
                 external={demo.external}
                 size="lg"
+                className="prototype-primary"
                 title={demo.isFallback ? "Demo video not yet added. Opens the interactive demonstration." : undefined}
               >
                 Watch demo
               </ButtonLink>
-              <ButtonLink href={github.href} external={github.external} variant="secondary" size="lg">
+              <ButtonLink href={github.href} external={github.external} variant="secondary" size="lg" className="prototype-secondary">
                 View GitHub
               </ButtonLink>
             </div>
@@ -55,21 +54,24 @@ export function Prototype() {
 
         {/* Front: the hero shot. */}
         <Reveal delay={80} className="mt-12 sm:mt-16">
-          <figure className="mx-auto max-w-[1100px]">
-            <div className="overflow-hidden rounded-[20px] border border-gray-200 bg-gray-100 shadow-lg sm:rounded-[28px]">
-              <Image
-                src={front.image.src}
-                alt={front.image.alt}
-                width={front.image.width}
-                height={front.image.height}
-                sizes="(min-width: 1200px) 1100px, 100vw"
-                priority={false}
-                className="h-auto w-full"
-              />
+          <figure className="prototype-product mx-auto max-w-[1100px]">
+            <div className="prototype-photo-shell">
+              <div className="prototype-photo overflow-hidden">
+                <Image
+                  src={front.image.src}
+                  alt={front.image.alt}
+                  width={front.image.width}
+                  height={front.image.height}
+                  sizes="(min-width: 1200px) 1100px, 100vw"
+                  priority={false}
+                  className="h-auto w-full"
+                />
+              </div>
             </div>
-            <figcaption className="mt-4 text-center">
-              <span className="text-body-lg font-semibold text-gray-950">{front.caption}</span>
-              <span className="block text-body-md text-gray-600">{front.detail}</span>
+            <figcaption className="prototype-caption mt-5 text-center">
+              <span className="font-semibold text-gray-950">{front.caption}</span>
+              <span className="prototype-caption-divider" aria-hidden="true" />
+              <span className="text-gray-600">{front.detail}</span>
             </figcaption>
           </figure>
         </Reveal>
@@ -78,7 +80,7 @@ export function Prototype() {
         <div className="mx-auto mt-14 grid max-w-[1100px] gap-6 sm:mt-20 lg:grid-cols-[5fr_6fr] lg:gap-8">
           <Reveal>
             <figure className="flex h-full flex-col">
-              <div className="flex flex-1 items-center justify-center rounded-[20px] border border-gray-200 bg-gray-100 p-8 sm:rounded-[28px] sm:p-12">
+              <div className="prototype-back-panel flex flex-1 items-center justify-center rounded-[20px] border p-8 sm:rounded-[28px] sm:p-12">
                 <Image
                   src={back.image.src}
                   alt={back.image.alt}
@@ -106,7 +108,7 @@ export function Prototype() {
           </Reveal>
         </div>
 
-        <p className="mx-auto mt-10 flex w-fit max-w-full items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-body-md text-gray-600">
+        <p className="prototype-notice mx-auto mt-10 flex w-fit max-w-full items-center gap-2 rounded-full border px-4 py-2 text-body-md text-gray-600">
           <Info size={16} aria-hidden="true" className="shrink-0" />
           {prototype.notice}
         </p>

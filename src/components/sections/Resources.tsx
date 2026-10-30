@@ -7,7 +7,7 @@ import type { ProjectLink } from "@/content";
 import { isExternalHref } from "@/lib/links";
 import { cn } from "@/lib/cn";
 
-const hiddenResourceIds = new Set(["linkedin", "contact", "report", "poster"]);
+const hiddenResourceIds = new Set(["linkedin", "contact"]);
 
 export function Resources() {
   return (
